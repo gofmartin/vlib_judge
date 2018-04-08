@@ -55,7 +55,21 @@ public class Test extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		String classFile = request.getParameter("file");
+		String fileType = request.getParameter("type");
+		String ruleFile = request.getParameter("rule");
 		
+		//Test
+		System.out.println("File:" + classFile);
+		System.out.println("type:" + fileType);
+		System.out.println("rule:" + ruleFile);
+		//end of test
+		
+		//转发文件，实验类型，判分规则
+		
+		
+		
+		//*********************
 		
 	}
 
