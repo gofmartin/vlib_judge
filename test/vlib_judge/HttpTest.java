@@ -22,8 +22,8 @@ public class HttpTest {
 	@Test
 	public void testPost() {
 		
-		String url = "http://www.baidu.com";
-		String param = "";
+		String url = "localhost:8080";
+		String param = "detail="+;
 		
 		String str = HttpUtil.sendPost(url, param);
 		System.out.println(str);
