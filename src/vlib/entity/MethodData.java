@@ -4,11 +4,18 @@ import java.util.List;
 
 public class MethodData {
 	
+	public String methodName;	//方法名
 	public String visibility;	//可见性
 	public String returnType;	//返回值类型
-	public Object returnObject;	//返回值数据
+	public Object returnObject;	//期望返回值数据
 	public List<ParamData> paramList;	//参数列表
 	
+	public String getMethodName() {
+		return methodName;
+	}
+	public void setMethodName(String methodName) {
+		this.methodName = methodName;
+	}
 	public String getVisibility() {
 		return visibility;
 	}

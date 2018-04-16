@@ -5,7 +5,7 @@ import java.util.List;
 public class ByClass extends JudgeData {
 	
 	public String className;	//类名
-	public String classField;	//可见性
+	public String classVisibility;	//可见性
 	public boolean isStatic;	//是否静态
 	public List<FieldData> fieldList;	//变量列表
 	public List<MethodData> methodList;	//方法列表
@@ -13,25 +13,44 @@ public class ByClass extends JudgeData {
 	public ByClass() {
 		
 	}
-	
-	public ByClass(String className, String classField) {
+	public ByClass(String className, String classVisibility, boolean isStatic,
+			List<FieldData> fieldList, List<MethodData> methodList) {
+		super();
 		this.className = className;
-		this.classField = classField;
+		this.classVisibility = classVisibility;
+		this.isStatic = isStatic;
+		this.fieldList = fieldList;
+		this.methodList = methodList;
 	}
-	
 	public String getClassName() {
 		return className;
 	}
 	public void setClassName(String className) {
 		this.className = className;
 	}
-	
-	public String getClassField() {
-		return classField;
+	public String getClassVisibility() {
+		return classVisibility;
 	}
-
-	public void setClassField(String classField) {
-		this.classField = classField;
+	public void setClassVisibility(String classVisibility) {
+		this.classVisibility = classVisibility;
+	}
+	public boolean isStatic() {
+		return isStatic;
+	}
+	public void setStatic(boolean isStatic) {
+		this.isStatic = isStatic;
+	}
+	public List<FieldData> getFieldList() {
+		return fieldList;
+	}
+	public void setFieldList(List<FieldData> fieldList) {
+		this.fieldList = fieldList;
+	}
+	public List<MethodData> getMethodList() {
+		return methodList;
+	}
+	public void setMethodList(List<MethodData> methodList) {
+		this.methodList = methodList;
 	}
 	
 }
