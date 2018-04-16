@@ -26,7 +26,7 @@ public class JsonTest {
 		//数组方式生成判分细则
 		List<JudgeData> data = new ArrayList<JudgeData>();
 		for(int i=0; i<2; i++) {
-			data.add(new ByClass("name"+i, "in"+i, "out"+i));
+			//data.add(new ByClass("name"+i, "in"+i, "out"+i));
 		}
 		judgeDetail.setData(data);
 		

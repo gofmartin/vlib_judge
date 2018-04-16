@@ -1,19 +1,22 @@
 package vlib.entity;
 
+import java.util.List;
+
 public class ByClass extends JudgeData {
 	
-	public String className;
-	public String classIn;
-	public String classOut;
+	public String className;	//类名
+	public String classField;	//可见性
+	public boolean isStatic;	//是否静态
+	public List<FieldData> fieldList;	//变量列表
+	public List<MethodData> methodList;	//方法列表
 	
 	public ByClass() {
 		
 	}
 	
-	public ByClass(String className, String classIn, String classOut) {
+	public ByClass(String className, String classField) {
 		this.className = className;
-		this.classIn = classIn;
-		this.classOut = classOut;
+		this.classField = classField;
 	}
 	
 	public String getClassName() {
@@ -22,17 +25,13 @@ public class ByClass extends JudgeData {
 	public void setClassName(String className) {
 		this.className = className;
 	}
-	public String getClassIn() {
-		return classIn;
+	
+	public String getClassField() {
+		return classField;
 	}
-	public void setClassIn(String classIn) {
-		this.classIn = classIn;
-	}
-	public String getClassOut() {
-		return classOut;
-	}
-	public void setClassOut(String classOut) {
-		this.classOut = classOut;
+
+	public void setClassField(String classField) {
+		this.classField = classField;
 	}
 	
 }
