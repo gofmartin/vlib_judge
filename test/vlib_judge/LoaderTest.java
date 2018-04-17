@@ -10,15 +10,15 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import vlib.judger.JavaJudger;
+import vlib.util.Utils;
 
 public class LoaderTest {
 
 	@Test
 	public void test() {
-		JavaJudger javaJudger = new JavaJudger();
 		ArrayList<Class> classList = null;
 		try {
-			classList = (ArrayList<Class>) javaJudger.classLoader("D:/wmy/JavaWorkSpace/AdapterTest/bin");
+			classList = (ArrayList<Class>) Utils.classLoader("D:/wmy/JavaWorkSpace/Test/bin");
 			//遍历classlist
 			for(Class class1 : classList) {
 				System.out.println("class name:"+class1.getName());

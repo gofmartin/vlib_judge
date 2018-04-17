@@ -6,7 +6,6 @@ public class ByClass extends JudgeData {
 	
 	public String className;	//类名
 	public String classVisibility;	//可见性
-	public boolean isStatic;	//是否静态
 	public List<FieldData> fieldList;	//变量列表
 	public List<MethodData> methodList;	//方法列表
 	
@@ -18,7 +17,6 @@ public class ByClass extends JudgeData {
 		super();
 		this.className = className;
 		this.classVisibility = classVisibility;
-		this.isStatic = isStatic;
 		this.fieldList = fieldList;
 		this.methodList = methodList;
 	}
@@ -33,12 +31,6 @@ public class ByClass extends JudgeData {
 	}
 	public void setClassVisibility(String classVisibility) {
 		this.classVisibility = classVisibility;
-	}
-	public boolean isStatic() {
-		return isStatic;
-	}
-	public void setStatic(boolean isStatic) {
-		this.isStatic = isStatic;
 	}
 	public List<FieldData> getFieldList() {
 		return fieldList;

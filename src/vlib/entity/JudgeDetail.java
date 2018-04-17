@@ -27,5 +27,4 @@ public class JudgeDetail {
 		this.data = data;
 	}
 	
-	
 }

@@ -5,12 +5,15 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.util.ArrayList;
 
+import net.sf.json.JSONObject;
+
 import org.junit.Test;
 
 import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import vlib.dao.impl.RulesDaoImpl;
 import vlib.entity.ByClass;
+import vlib.entity.FieldData;
 import vlib.entity.JudgeData;
 import vlib.entity.JudgeDetail;
 import vlib.entity.MethodData;
@@ -21,53 +24,104 @@ public class DBTest {
 
 	@Test
 	public void test() {
-		RulesDaoImpl rulesDaoImpl = new RulesDaoImpl();
+//		RulesDaoImpl rulesDaoImpl = new RulesDaoImpl();
+//		JudgeDetail judgeDetail = new JudgeDetail();
+//		judgeDetail.setType("java");
+//		judgeDetail.setRule("class");
+//
+//		ArrayList<JudgeData> data = new ArrayList<JudgeData>();
+//		
+//			ByClass byClass = new ByClass();
+//			byClass.setClassName("JavaProjJudger");
+//			byClass.setClassVisibility("public");
+//			byClass.setFieldList(null);
+//			
+//				ArrayList<MethodData> methodList = new ArrayList<MethodData>();
+//		
+//					MethodData methodData = new MethodData();
+//					methodData.setMethodName("judgeJavaProj");
+//					methodData.setVisibility("public");
+//					methodData.setReturnType(null);
+//					
+//						ArrayList<ParamData> paramList = new ArrayList<ParamData>();
+//					
+//						ParamData paramData1 = new ParamData();
+//						paramData1.setType("String");
+//						paramData1.setTestData(new File("D:/test/proj/bin"));
+//						paramList.add(paramData1);
+//						
+//						ParamData paramData2 = new ParamData();
+//						paramData2.setType("Integer");
+//						paramData2.setTestData(new Integer(1));
+//						paramList.add(paramData2);
+//						
+//						ParamData paramData3 = new ParamData();
+//						paramData3.setType("Integer");
+//						paramData3.setTestData(new Integer(1));
+//						paramList.add(paramData3);
+//					
+//					methodData.setParamList(paramList);
+//					
+//				methodList.add(methodData);
+//
+//			byClass.setMethodList(methodList);
+//		
+//		data.add(byClass);
+//		judgeDetail.setData(data);
+//		
+//		String jsonstr = JsonUtil.JudgeDetailToJson(judgeDetail);
+//		rulesDaoImpl.add(1, jsonstr);
+		
+		//param list
+		ParamData paramData = new ParamData();
+		paramData.setType("String");
+		paramData.setTestData("Hello World");
+		ArrayList<ParamData> paramList = new ArrayList<ParamData>();
+		paramList.add(paramData);
+		
+		//method list
+		MethodData methodData = new MethodData();
+		methodData.setMethodName("StringEcho");
+		methodData.setVisibility("public");
+		methodData.setReturnType("void");
+		methodData.setStatic(false);
+		methodData.setReturnObject(null);
+		methodData.setParamList(paramList);
+		ArrayList<MethodData> methodList = new ArrayList<MethodData>();
+		methodList.add(methodData);
+		
+		//field list
+		ArrayList<FieldData> fieldList = null;
+		
+		//class list
+		ByClass byClass = new ByClass();
+		byClass.setClassName("StringTest");
+		byClass.setClassVisibility("public");
+		byClass.setFieldList(fieldList);
+		byClass.setMethodList(methodList);
+		ArrayList<JudgeData> classList = new ArrayList<JudgeData>();
+		classList.add(byClass);
+		
+		//JudgeDetail
 		JudgeDetail judgeDetail = new JudgeDetail();
 		judgeDetail.setType("java");
 		judgeDetail.setRule("class");
-
-		ArrayList<JudgeData> data = new ArrayList<JudgeData>();
+		judgeDetail.setData(classList);
 		
-			ByClass byClass = new ByClass();
-			byClass.setClassName("JavaProjJudger");
-			byClass.setClassVisibility("public");
-			byClass.setFieldList(null);
-			
-				ArrayList<MethodData> methodList = new ArrayList<MethodData>();
+		String jsonstr = JSONObject.fromObject(judgeDetail).toString();
+		System.out.println(jsonstr);
 		
-					MethodData methodData = new MethodData();
-					methodData.setMethodName("judgeJavaProj");
-					methodData.setVisibility("public");
-					methodData.setReturnType(null);
-					
-						ArrayList<ParamData> paramList = new ArrayList<ParamData>();
-					
-						ParamData paramData1 = new ParamData();
-						paramData1.setType("String");
-						paramData1.setTestData(new File("D:/test/proj/bin"));
-						paramList.add(paramData1);
-						
-						ParamData paramData2 = new ParamData();
-						paramData2.setType("Integer");
-						paramData2.setTestData(new Integer(1));
-						paramList.add(paramData2);
-						
-						ParamData paramData3 = new ParamData();
-						paramData3.setType("Integer");
-						paramData3.setTestData(new Integer(1));
-						paramList.add(paramData3);
-					
-					methodData.setParamList(paramList);
-					
-				methodList.add(methodData);
-
-			byClass.setMethodList(methodList);
-		
-		data.add(byClass);
-		judgeDetail.setData(data);
-		
-		String jsonstr = JsonUtil.JudgeDetailToJson(judgeDetail);
-		rulesDaoImpl.add(1, jsonstr);
+//		RulesDaoImpl rulesDaoImpl = new RulesDaoImpl();
+//		rulesDaoImpl.add(3, jsonstr);
+	}
+	
+	@Test
+	public void ReadJson() {
+		RulesDaoImpl rulesDaoImpl = new RulesDaoImpl();
+		String jsonstr = rulesDaoImpl.read(3);
+		System.out.println(jsonstr);
+		JudgeDetail judgeDetail = JsonUtil.jsonToJudgeDetail(jsonstr);
+		System.out.println(JsonUtil.JudgeDetailToJson(judgeDetail).toString());
 	}
 
 }

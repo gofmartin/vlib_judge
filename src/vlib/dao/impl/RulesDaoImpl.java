@@ -15,7 +15,7 @@ public class RulesDaoImpl implements RulesDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		String sql = "insert into vlibrules(expid,rule) values(?,?)";
+		String sql = "insert into rules(expid,rule) values(?,?)";
 		
 		try {
 			pstmt = con.prepareStatement(sql);
