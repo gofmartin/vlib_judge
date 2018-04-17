@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import net.sf.json.JSONObject;
+import oracle.net.aso.l;
 
 import org.junit.Test;
 
@@ -18,6 +19,7 @@ import vlib.entity.JudgeData;
 import vlib.entity.JudgeDetail;
 import vlib.entity.MethodData;
 import vlib.entity.ParamData;
+import vlib.judger.JavaJudger;
 import vlib.util.JsonUtil;
 
 public class DBTest {
@@ -108,8 +110,11 @@ public class DBTest {
 		judgeDetail.setRule("class");
 		judgeDetail.setData(classList);
 		
-		String jsonstr = JSONObject.fromObject(judgeDetail).toString();
-		System.out.println(jsonstr);
+		JavaJudger javaJudger = new JavaJudger();
+		System.out.println(javaJudger.GetTotalScore(judgeDetail));
+		
+//		String jsonstr = JSONObject.fromObject(judgeDetail).toString();
+//		System.out.println(jsonstr);
 		
 //		RulesDaoImpl rulesDaoImpl = new RulesDaoImpl();
 //		rulesDaoImpl.add(3, jsonstr);
@@ -117,11 +122,14 @@ public class DBTest {
 	
 	@Test
 	public void ReadJson() {
-		RulesDaoImpl rulesDaoImpl = new RulesDaoImpl();
-		String jsonstr = rulesDaoImpl.read(3);
-		System.out.println(jsonstr);
-		JudgeDetail judgeDetail = JsonUtil.jsonToJudgeDetail(jsonstr);
-		System.out.println(JsonUtil.JudgeDetailToJson(judgeDetail).toString());
+//		RulesDaoImpl rulesDaoImpl = new RulesDaoImpl();
+//		String jsonstr = rulesDaoImpl.read(3);
+//		System.out.println(jsonstr);
+//		JudgeDetail judgeDetail = JsonUtil.jsonToJudgeDetail(jsonstr);
+//		System.out.println(JsonUtil.JudgeDetailToJson(judgeDetail).toString());
+//		
+//		JavaJudger javaJudger = new JavaJudger();
+//		javaJudger.GetTotalScore(judgeDetail);
 	}
 
 }
