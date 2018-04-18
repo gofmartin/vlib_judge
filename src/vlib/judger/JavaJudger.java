@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -21,44 +22,74 @@ import vlib.util.Utils;
 
 public class JavaJudger {
 	
-	public JudgeResult judge(String FilePath, JudgeDetail detail) throws NoSuchMethodException, SecurityException, ClassNotFoundException {
+public JudgeResult judge(String FilePath, JudgeDetail detail) throws NoSuchMethodException, SecurityException, ClassNotFoundException {
 		
 		ArrayList<Class> clazzList = (ArrayList<Class>) Utils.classLoader(FilePath);
-		if(detail.rule.equalsIgnoreCase("class")) {
-			//根据类判定
-			//ArrayList<JudgeData> clazzRules = (ArrayList<JudgeData>) detail.getData();
-			for(JudgeData clazzRule : detail.getData()) {
-				//获取一个类的判分项
-				ByClass judgeClass = (ByClass) clazzRule;
-				//查找有没有相同的类名
-				for(Class c : clazzList) {
-					if(judgeClass.getClassName().equalsIgnoreCase(c.getName())) {
-						
-						//遍历变量列表
-						for(FieldData fd : judgeClass.fieldList) {
-							try {
-								
-								Field f = c.getDeclaredField(fd.getName());
-								//尝试获取变量类型
-								
-							} catch (Exception e) {
-								System.out.println("no such field--"+fd.getName());
-							}
-						}
-						
-						//遍历方法列表
-						
-						break;
-					}
-				}
+		//遍历类列表
+		for(Class clazz : clazzList) {
+			//类名
+			System.out.println("className:" + clazz.getName());
+			//可见性 无法实现
+			
+			//变量
+			System.out.println("FieldList:");
+			for(Field f : clazz.getFields()) {
+				System.out.println("  FieldName:" + f.getName());
+				System.out.println("  FieldType:" + f.getType().getName());
 			}
-		}
-		else if(detail.rule.equalsIgnoreCase("inandout")) {
-			//根据输入输出判定
+			System.out.println("MethodList:");
+			for(Method m : clazz.getMethods()) {
+				System.out.println("  MethodName:" + m.getName());
+				System.out.println("  MethodReturnType:" + m.getReturnType().getName());
+				System.out.println("  ParamTypeList:");
+				for(Class p : m.getParameterTypes()) {
+					System.out.println("    paramType:" + p.getName());
+				}
+				
+			}
 		}
 		
 		return null;
 	}
+	
+//	public JudgeResult judge(String FilePath, JudgeDetail detail) throws NoSuchMethodException, SecurityException, ClassNotFoundException {
+//		
+//		ArrayList<Class> clazzList = (ArrayList<Class>) Utils.classLoader(FilePath);
+//		if(detail.getRule().equalsIgnoreCase("class")) {
+//			//根据类判定
+//			//ArrayList<JudgeData> clazzRules = (ArrayList<JudgeData>) detail.getData();
+//			for(JudgeData clazzRule : detail.getData()) {
+//				//获取一个类的判分项
+//				ByClass judgeClass = (ByClass) clazzRule;
+//				//查找有没有相同的类名
+//				for(Class c : clazzList) {
+//					if(judgeClass.getClassName().equalsIgnoreCase(c.getName())) {
+//						
+//						//遍历变量列表
+//						for(FieldData fd : judgeClass.fieldList) {
+//							try {
+//								
+//								Field f = c.getDeclaredField(fd.getName());
+//								//尝试获取变量类型
+//								
+//							} catch (Exception e) {
+//								System.out.println("no such field--"+fd.getName());
+//							}
+//						}
+//						
+//						//遍历方法列表
+//						
+//						break;
+//					}
+//				}
+//			}
+//		}
+//		else if(detail.rule.equalsIgnoreCase("inandout")) {
+//			//根据输入输出判定
+//		}
+//		
+//		return null;
+//	}
 	
 	public int GetTotalScore(JudgeDetail judgeDetail) {
 		int TotalScore = 0;
