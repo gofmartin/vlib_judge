@@ -25,7 +25,12 @@ public class JavaJudger {
 public JudgeResult judge(String FilePath, JudgeDetail detail) throws NoSuchMethodException, SecurityException, ClassNotFoundException {
 		
 		ArrayList<Class> clazzList = (ArrayList<Class>) Utils.classLoader(FilePath);
+		JudgeResult judgeResult = new JudgeResult();
+		
 		//遍历类列表
+		if(clazzList == null) {
+			return judgeResult;
+		}
 		for(Class clazz : clazzList) {
 			//类名
 			System.out.println("className:" + clazz.getName());
@@ -33,23 +38,38 @@ public JudgeResult judge(String FilePath, JudgeDetail detail) throws NoSuchMetho
 			
 			//变量
 			System.out.println("FieldList:");
-			for(Field f : clazz.getFields()) {
-				System.out.println("  FieldName:" + f.getName());
-				System.out.println("  FieldType:" + f.getType().getName());
-			}
-			System.out.println("MethodList:");
-			for(Method m : clazz.getMethods()) {
-				System.out.println("  MethodName:" + m.getName());
-				System.out.println("  MethodReturnType:" + m.getReturnType().getName());
-				System.out.println("  ParamTypeList:");
-				for(Class p : m.getParameterTypes()) {
-					System.out.println("    paramType:" + p.getName());
+			if(clazz.getFields() != null) {
+				for(Field f : clazz.getDeclaredFields()) {
+					//变量名
+					System.out.println("  FieldName:" + f.getName());
+					//变量类型
+					System.out.println("  FieldType:" + f.getType().getName());
 				}
-				
+			} else {
+				System.out.println("none");
+			}
+			
+			//
+			System.out.println("MethodList:");
+			if(clazz.getMethods() != null) {
+				for(Method m : clazz.getDeclaredMethods()) {
+					//方法名
+					System.out.println("  MethodName:" + m.getName());
+					//方法返回值类型
+					System.out.println("  MethodReturnType:" + m.getReturnType().getName());
+					//参数列表
+					System.out.println("  ParamTypeList:");
+					for(Class p : m.getParameterTypes()) {
+						//参数类型
+						System.out.println("    paramType:" + p.getName());
+					}
+				}
+			} else {
+				System.out.println("none");
 			}
 		}
 		
-		return null;
+		return judgeResult;
 	}
 	
 //	public JudgeResult judge(String FilePath, JudgeDetail detail) throws NoSuchMethodException, SecurityException, ClassNotFoundException {
