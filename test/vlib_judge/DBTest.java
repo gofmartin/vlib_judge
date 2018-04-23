@@ -84,9 +84,7 @@ public class DBTest {
 		//method list
 		MethodData methodData = new MethodData();
 		methodData.setMethodName("StringEcho");
-		methodData.setVisibility("public");
 		methodData.setReturnType("void");
-		methodData.setStatic(false);
 		methodData.setReturnObject(null);
 		methodData.setParamList(paramList);
 		ArrayList<MethodData> methodList = new ArrayList<MethodData>();
