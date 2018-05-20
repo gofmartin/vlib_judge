@@ -2,15 +2,16 @@ package vlib.entity;
 
 public class FieldData {
 	
-	public String visibility;	//可见性
+	public int id;
 	public String type;			//变量类型
 	public String name;			//变量名
+	public ByClass byClass;
 	
-	public String getVisibility() {
-		return visibility;
+	public int getId() {
+		return id;
 	}
-	public void setVisibility(String visibility) {
-		this.visibility = visibility;
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getType() {
 		return type;
@@ -23,6 +24,12 @@ public class FieldData {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public ByClass getByClass() {
+		return byClass;
+	}
+	public void setByClass(ByClass byClass) {
+		this.byClass = byClass;
 	}
 	
 }

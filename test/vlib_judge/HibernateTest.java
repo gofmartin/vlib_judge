@@ -4,54 +4,31 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
-import oracle.net.aso.n;
-
 import org.junit.Test;
-
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import vlib.dao.impl.RulesDaoImpl;
 import vlib.entity.ByClass;
 import vlib.entity.FieldData;
-import vlib.entity.JudgeData;
 import vlib.entity.JudgeDetail;
-import vlib.entity.JudgeResult;
 import vlib.entity.MethodData;
 import vlib.entity.ParamData;
-import vlib.judger.JavaJudger;
-import vlib.util.JsonUtil;
 
-public class JudgeTest {
-
+public class HibernateTest {
+	
 	@Test
 	public void test() {
-//		storeJudgeDetail();
-		
-		JavaJudger javaJudger = new JavaJudger();
-		JudgeResult judgeResult = null;
-		try {
-			judgeResult = javaJudger.judgeJavaProj("D:/JAVA/WorkSpace(Java_Web)/Test/bin", 15);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		System.out.println("TotalScore:"+judgeResult.getTotalScore());
-		System.out.println("Score:"+judgeResult.getScore());
-		System.out.println("Detail:"+judgeResult.getJudgeDetail());
-	}
-	
-	private JudgeDetail getTestJudgeDetail(int expid) {
+		//save test
+//		RulesDaoImpl rulesDaoImpl = new RulesDaoImpl();
+//		rulesDaoImpl.add(generateJudgeDetail());
+		//**********
+		//read test
 		RulesDaoImpl rulesDaoImpl = new RulesDaoImpl();
-		JudgeDetail judgeDetail = rulesDaoImpl.read(expid);
-		return judgeDetail;
+		JudgeDetail judgeDetail = rulesDaoImpl.read(11);
+		System.out.println(judgeDetail.getData().get(0).getMethodList().get(0).getReturnType());
+		//**********
 	}
 	
-	private void storeJudgeDetail() {
-		JudgeDetail judgeDetail = generateJudgeDetail();
-		RulesDaoImpl rulesDaoImpl = new RulesDaoImpl();
-		rulesDaoImpl.add(judgeDetail);
-	}
-	
-	private JudgeDetail generateJudgeDetail() {
+private JudgeDetail generateJudgeDetail() {
 		
 		ParamData paramData = new ParamData();
 		paramData.setType("String");
@@ -89,6 +66,7 @@ public class JudgeTest {
 		
 		//JudgeDetail
 		JudgeDetail judgeDetail = new JudgeDetail();
+		judgeDetail.setExpid(11);
 		judgeDetail.setType("java");
 		judgeDetail.setRule("class");
 		judgeDetail.setData(classList);

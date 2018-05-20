@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import oracle.net.aso.i;
+import vlib.core.AdvancedJudger;
+import vlib.dao.impl.RulesDaoImpl;
 import vlib.entity.ByClass;
 import vlib.entity.FieldData;
 import vlib.entity.JudgeData;
@@ -16,12 +18,21 @@ import vlib.entity.MethodData;
 import vlib.entity.ParamData;
 import vlib.util.Utils;
 
-public class JavaJudger {
+public class JavaJudger implements AdvancedJudger {
 	
-public JudgeResult judge(String FilePath, JudgeDetail detail) throws NoSuchMethodException, SecurityException, ClassNotFoundException {
+	public JudgeResult judgeJavaProj(String FilePath, int expid) {
 		
-		ArrayList<Class> clazzList = (ArrayList<Class>) Utils.classLoader(FilePath);
+		ArrayList<Class> clazzList = null;
+		try {
+			clazzList = (ArrayList<Class>) Utils.classLoader(FilePath);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 		JudgeResult judgeResult = new JudgeResult();
+		
+		RulesDaoImpl rulesDaoImpl = new RulesDaoImpl();
+		JudgeDetail detail = rulesDaoImpl.read(expid);
+		
 		//设置总分
 		judgeResult.setTotalScore(GetTotalScore(detail));
 		int score = 0;
@@ -34,7 +45,7 @@ public JudgeResult judge(String FilePath, JudgeDetail detail) throws NoSuchMetho
 					//same class name
 					score++;
 					//******test
-					judgeResult.addJudgeDetail("class name is same["+c.getName()+"]");
+					judgeResult.addJudgeDetail("类名相同：["+c.getName()+"]");
 					//*****
 					
 					for(FieldData fd : bc.getFieldList()) {
@@ -42,13 +53,13 @@ public JudgeResult judge(String FilePath, JudgeDetail detail) throws NoSuchMetho
 							if(f.getName().equalsIgnoreCase(fd.getName())) {
 								score++;
 								//*****test
-								judgeResult.addJudgeDetail("field name is same["+f.getName()+"]");
+								judgeResult.addJudgeDetail("变量类别相同：["+f.getName()+"]");
 								//*****
 							}
 							if(f.getType().getName().toLowerCase().contains(fd.getType().toLowerCase())) {
 								score++;
 								//*****test
-								judgeResult.addJudgeDetail("field type is same["+f.getType().getName()+"]");
+								judgeResult.addJudgeDetail("变量名相同：["+f.getType().getName()+"]");
 								//*****
 							}
 						}
@@ -59,13 +70,13 @@ public JudgeResult judge(String FilePath, JudgeDetail detail) throws NoSuchMetho
 							if(m.getName().equalsIgnoreCase(md.getMethodName())) {
 								score++;
 								//*****test
-								judgeResult.addJudgeDetail("method name is same["+m.getName()+"]");
+								judgeResult.addJudgeDetail("方法名相同：["+m.getName()+"]");
 								//*****
 							}
 							if(m.getReturnType().getName().toLowerCase().contains(md.getReturnType().toLowerCase())) {
 								score++;
 								//*****test
-								judgeResult.addJudgeDetail("method return type is same["+m.getReturnType().getName()+"]");
+								judgeResult.addJudgeDetail("返回值类型相同：["+m.getReturnType().getName()+"]");
 								//*****
 							}
 							
@@ -78,7 +89,7 @@ public JudgeResult judge(String FilePath, JudgeDetail detail) throws NoSuchMetho
 									if(ptl[i].getName().toLowerCase().contains(md.getParamList().get(i).getType().toLowerCase())) {
 										ptscore++;
 										//*****test
-										judgeResult.addJudgeDetail("param type is same["+ptl[i].getName()+"]");
+										judgeResult.addJudgeDetail("参数类型相同：["+ptl[i].getName()+"]");
 										//*****
 									}
 									else
@@ -96,7 +107,7 @@ public JudgeResult judge(String FilePath, JudgeDetail detail) throws NoSuchMetho
 										if(temp.equals(md.getReturnObject())) {
 											score++;
 											//*****test
-											judgeResult.addJudgeDetail("return data is same["+temp+"]");
+											judgeResult.addJudgeDetail("输出值相同：["+temp+"]");
 											//*****
 										}
 									} catch (Exception e) {
@@ -158,24 +169,17 @@ public JudgeResult judge(String FilePath, JudgeDetail detail) throws NoSuchMetho
 	public int GetTotalScore(JudgeDetail judgeDetail) {
 		int TotalScore = 0;
 		
-		ArrayList<JudgeData> datas = (ArrayList<JudgeData>) judgeDetail.getData();
+		List<ByClass> datas = judgeDetail.getData();
 		if(datas != null) {
-			for(JudgeData clazzdata : datas) {
-				ByClass clzz = (ByClass) clazzdata;
+			for(ByClass clzz : datas) {
 				//类名
 				System.out.println("className:"+clzz.getClassName());
-				TotalScore ++;
-				//类可见性
-				System.out.println("classVisibility:" + clzz.getClassVisibility());
 				TotalScore ++;
 				
 				if(clzz.getFieldList() != null) {
 					for(FieldData fd : clzz.getFieldList()) {
 						//变量名
 						System.out.println("  fieldName:" + fd.getName());
-						TotalScore ++;
-						//变量可见性
-						System.out.println("  fieldVisibility:" + fd.getVisibility());
 						TotalScore ++;
 						//变量类型
 						System.out.println("  fieldType:" + fd.getType());
@@ -190,6 +194,9 @@ public JudgeResult judge(String FilePath, JudgeDetail detail) throws NoSuchMetho
 						//返回值类型
 						System.out.println("  methodReturnType:" + md.getReturnType());
 						TotalScore ++;
+						//期望返回值
+						System.out.println("  methodReturnObject:" + md.getReturnObject());
+						TotalScore++;
 						
 						if(md.getParamList() != null) {
 							for(ParamData pd : md.getParamList()) {
@@ -198,7 +205,6 @@ public JudgeResult judge(String FilePath, JudgeDetail detail) throws NoSuchMetho
 								TotalScore ++;
 								//参数数据
 								System.out.println("    paramData:" + pd.getTestData());
-								TotalScore ++;
 							}
 						}
 					}
@@ -208,5 +214,23 @@ public JudgeResult judge(String FilePath, JudgeDetail detail) throws NoSuchMetho
 		
 		return TotalScore;
 	}
+
+	@Override
+	public JudgeResult judgeCProj(String projurl, int expid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
+	@Override
+	public JudgeResult judgeCSProj(String projurl, int expid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public JudgeResult judgeDBProj(String projurl, int expid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

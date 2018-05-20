@@ -1,7 +1,9 @@
 package vlib.dao;
 
+import vlib.entity.JudgeDetail;
+
 public interface RulesDao {
-	public void add(int expId, String rule);
-	public void edit(int expId, String rule);
-	public String read(int expId);
+	public void add(JudgeDetail judgeDetail);
+	public void edit(JudgeDetail judgeDetail);
+	public JudgeDetail read(int expId);
 }

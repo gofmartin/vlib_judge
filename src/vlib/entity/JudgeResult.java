@@ -22,7 +22,7 @@ public class JudgeResult {
 		return judgeDetail;
 	}
 	public void addJudgeDetail(String str) {
-		judgeDetail += (str + "\n");
+		judgeDetail += (str + "</br>");
 	}
 	public void setJudgeDetail(String judgeDetail) {
 		this.judgeDetail = judgeDetail;

@@ -1,21 +1,30 @@
 package vlib.action;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class TestAction extends HttpServlet {
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidRemoteException;
+import org.eclipse.jgit.api.errors.TransportException;
+
+import vlib.dao.impl.RulesDaoImpl;
+import vlib.entity.JudgeDetail;
+import vlib.entity.JudgeResult;
+import vlib.judger.JavaJudger;
+import vlib.util.GitUtil;
+
+public class JudgeAction extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public TestAction() {
+	public JudgeAction() {
 		super();
 	}
 
@@ -39,6 +48,7 @@ public class TestAction extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		doPost(request, response);
 	}
 
@@ -54,22 +64,32 @@ public class TestAction extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String data = request.getParameter("data");
-		String classFile = request.getParameter("file");
-		String ruleFile = request.getParameter("rule");
+
+		String path = request.getParameter("path");
+		String expid_str = request.getParameter("expid");
+		int expid = Integer.parseInt(expid_str.trim());
 		
-		//Test
-		System.out.println("data:" + data);
-		System.out.println("File:" + classFile);
-		System.out.println("rule:" + ruleFile);
-		//end of test
+		String repopath = "D:/bishe/repo/";
+		String repoName = GitUtil.getRepoName(path);
+		String classPath = repopath+"/bin";
+		try {
+			GitUtil.cloneFromGitlab(path, repopath);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		//转发文件，实验类型，判分规则
+		JavaJudger judger = new JavaJudger();
+		JudgeResult result = null;
+		try {
+			result = judger.judgeJavaProj(classPath, expid);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		GitUtil.delDir(new File(repopath));
 		
-		
-		
-		//*********************
-		
+		request.setAttribute("result", result);
+		request.getRequestDispatcher("showresult.jsp").forward(request, response);
 	}
 
 	/**

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="vlib.entity">
+    <class name="vlib.entity.MethodData" table="methods" lazy="false">
+        <id name="id" type="int" column="id">
+            <generator class="native"/>
+        </id>
+        <property name="methodName" type="string" column="methodname" />
+        <property name="returnType" type="string" column="returntype" />
+        <property name="returnObject" type="string" column="returnobject" />
+        <list name="paramList" table="params" cascade="all">
+        	<key column="method_id"></key>
+        	<index column="[index]" type="string"></index>
+        	<one-to-many class="vlib.entity.ParamData"/>
+        </list>
+        <many-to-one name="byClass" lazy="false" column="class_id" class="vlib.entity.ByClass"></many-to-one>
+    </class>
+</hibernate-mapping>

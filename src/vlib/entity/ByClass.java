@@ -4,10 +4,11 @@ import java.util.List;
 
 public class ByClass extends JudgeData {
 	
+	public int id;
 	public String className;	//类名
-	public String classVisibility;	//可见性
 	public List<FieldData> fieldList;	//变量列表
 	public List<MethodData> methodList;	//方法列表
+	public JudgeDetail judgeDetail;
 	
 	public ByClass() {
 		
@@ -16,21 +17,20 @@ public class ByClass extends JudgeData {
 			List<FieldData> fieldList, List<MethodData> methodList) {
 		super();
 		this.className = className;
-		this.classVisibility = classVisibility;
 		this.fieldList = fieldList;
 		this.methodList = methodList;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getClassName() {
 		return className;
 	}
 	public void setClassName(String className) {
 		this.className = className;
-	}
-	public String getClassVisibility() {
-		return classVisibility;
-	}
-	public void setClassVisibility(String classVisibility) {
-		this.classVisibility = classVisibility;
 	}
 	public List<FieldData> getFieldList() {
 		return fieldList;
@@ -43,6 +43,12 @@ public class ByClass extends JudgeData {
 	}
 	public void setMethodList(List<MethodData> methodList) {
 		this.methodList = methodList;
+	}
+	public JudgeDetail getJudgeDetail() {
+		return judgeDetail;
+	}
+	public void setJudgeDetail(JudgeDetail judgeDetail) {
+		this.judgeDetail = judgeDetail;
 	}
 	
 }

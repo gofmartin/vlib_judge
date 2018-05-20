@@ -96,10 +96,9 @@ public class DBTest {
 		//class list
 		ByClass byClass = new ByClass();
 		byClass.setClassName("StringTest");
-		byClass.setClassVisibility("public");
 		byClass.setFieldList(fieldList);
 		byClass.setMethodList(methodList);
-		ArrayList<JudgeData> classList = new ArrayList<JudgeData>();
+		ArrayList<ByClass> classList = new ArrayList<ByClass>();
 		classList.add(byClass);
 		
 		//JudgeDetail

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>添加判分规则</title>
+    <script src="./Script/jquery-3.3.1.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+    function addJudgeData1(para) {
+        var example_jd = document.getElementById("example_JudgeData");
+        $(para).next().next().html( $(para).next().next().html() + $(example_jd).html())
+    }
+    function addFieldData1(para) {
+        var example_fl = document.getElementById("example_FieldList");
+        $(para).next().html( $(para).next().html() + $(example_fl).html())
+    }
+    function addMethodData1(para) {
+        var example_ml = document.getElementById("example_MethodList");
+        $(para).next().html( $(para).next().html() + $(example_ml).html())
+    }
+    function addParamData1(para) {
+        var example_pl = document.getElementById("example_ParamList");
+        $(para).next().html( $(para).next().html() + $(example_pl).html())
+    }
+    function submitRule() {
+        var judgeDetail = new Object;
+        judgeDetail.exptype = $('.exptype').get(0).value+"";
+        judgeDetail.expid = $('.expid').get(0).value+"";
+        judgeDetail.judgetype = $('.judgetype').get(0).value+"";
+        judgeDetail.data = new Array();
+
+		//获取每一个class
+        $.each($('.class'), function(i) {
+        	if($(this).find('.classname').get(0).value=="")
+        		return false;
+        	judgeDetail.data[i] = new Object;
+        	judgeDetail.data[i].classname = $(this).find('.classname').get(0).value+"";
+        	judgeDetail.data[i].methodlist = new Array();
+        	judgeDetail.data[i].fieldlist = new Array();
+        	
+        	//方法列表
+        	$.each($(this).find('.method'), function(j) {
+        		if($(this).find('.methodname').get(0).value=="")
+        			return false;
+        		judgeDetail.data[i].methodlist[j] = new Object;
+        		judgeDetail.data[i].methodlist[j].methodname = $(this).find('.methodname').get(0).value+"";
+        		judgeDetail.data[i].methodlist[j].returntype = $(this).find('.returntype').get(0).value+"";
+        		judgeDetail.data[i].methodlist[j].returndata = $(this).find('.returndata').get(0).value+"";
+        		judgeDetail.data[i].methodlist[j].paramlist = new Array();
+        		
+        		//参数列表
+        		$.each($(this).find('.param'), function(k) {
+        			if($(this).find('.paramtype').get(0).value=="")
+        				return false;
+        			judgeDetail.data[i].methodlist[j].paramlist[k] = new Object;
+        			judgeDetail.data[i].methodlist[j].paramlist[k].paramtype = $(this).find('.paramtype').get(0).value+"";
+        			judgeDetail.data[i].methodlist[j].paramlist[k].paramdata = $(this).find('.paramdata').get(0).value+"";
+        		});
+        		//**********
+        	});
+        	//***********
+        	
+        	//变量列表
+        	$.each($(this).find('.field'), function(l) {
+        		if($(this).find('.fieldname').get(0).value=="")
+        			return false;
+        		judgeDetail.data[i].fieldlist[l] = new Object;
+        		judgeDetail.data[i].fieldlist[l].fieldname = $(this).find('.fieldname').get(0).value+"";
+        		judgeDetail.data[i].fieldlist[l].fieldtype = $(this).find('.fieldtype').get(0).value+"";
+        	});
+        	//***********
+        });
+        
+        //将judgedetail转成json
+        var jsonstr = JSON.stringify(judgeDetail);
+        console.log(jsonstr);
+        $('#senddata').get(0).value = jsonstr;
+        
+        
+        alert("添加成功");
+        //将josn字符串（作为data字段）发给10.217.17.169:8080/vlib/test
+//      $.ajax({
+//      	type:"post",
+//      	url:"10.217.17.169:8080/vlib_judge/saverule",
+//      	data:{"data":jsonstr},
+//      	success:function(data) {
+//      		console.log(data.result);
+//      	},
+//      	error:function() {
+//      		console.log("error");
+//      	},
+//      });
+        
+        return true;
+        //**********
+    }
+</script>
+</head>
+<body>
+	<h2>添加实验判分规则</h2>
+                        实验类型：<input class="exptype" type="text" value=""/>
+                        实验id：<input class="expid" type="text" value=""/>
+                        判分方式：<input class="judgetype" type="text" value=""/><br />
+                        判分数据：<button onclick="addJudgeData1(this)">+</button><br />
+                        <div id="JudgeDatas">
+
+                        </div>
+
+
+                        <div id="example_ParamList" style="display: none;">
+                            <div class="param">
+                            参数类型：<input class="paramtype" type="text" value=""/>
+                            参数数据：<input class="paramdata" type="text" value=""/><br />
+                            </div>
+                        </div>
+                        <div id="example_MethodList" style="display: none;">
+                            <hr />
+                            <div class="method">
+                            方法名：<input class="methodname" type="text" value=""/>
+                            返回值类型：<input class="returntype" type="text" value=""/><br />
+                            返回值数据：<input class="returndata" type="text" value=""/><br />
+                            参数：<button onclick="addParamData1(this)">+</button>
+                            <div id="ParamList">
+
+                            </div>
+                            </div>
+                        </div>
+                        <div id="example_FieldList" style="display: none;">
+                            <div class="field">
+                            变量名：<input class="fieldname" type="text" value=""/>
+                            变量类型：<input class="fieldtype" type="text" value=""/><br>
+                            </div>
+                        </div>
+                        <div id="example_JudgeData" style="display: none;">
+                            <hr /><hr />
+                            <div class="class">
+                            类名：<input class="classname" type="text" value=""/><br />
+                            变量：<button onclick="addFieldData1(this)">+</button>
+                            <div id="FieldList">
+
+                            </div>
+                            方法：<button onclick="addMethodData1(this)">+</button>
+                            <div id="MethodList">
+
+                            </div>
+                            </div>
+                        </div>
+                    </label>
+<form action="saverule" method="post">
+	<input type="text" id="senddata" name="data" style="display: none;">
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" class="btn btn-primary" onclick="return submitRule()">提交更改</button>
+            </div>
+</form>
+
+<header th:replace="commonjs :: header"></header>
+
+
+</body>
+</html>

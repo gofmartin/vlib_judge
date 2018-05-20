@@ -6,19 +6,31 @@
     <servlet-name>SaveRuleAction</servlet-name>
     <servlet-class>vlib.action.SaveRuleAction</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>TestAction</servlet-name>
+    <servlet-class>vlib.action.TestAction</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>JudgeAction</servlet-name>
+    <servlet-class>vlib.action.JudgeAction</servlet-class>
+  </servlet>
+
 
 
   <servlet-mapping>
     <servlet-name>SaveRuleAction</servlet-name>
-    <url-pattern>/SaveRule</url-pattern>
+    <url-pattern>/saverule</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TestAction</servlet-name>
+    <url-pattern>/test</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>JudgeAction</servlet-name>
+    <url-pattern>/judge</url-pattern>
   </servlet-mapping>
   
   <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>submit.html</welcome-file>
   </welcome-file-list>
 </web-app>

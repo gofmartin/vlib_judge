@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="vlib.entity">
+    <class name="vlib.entity.ByClass" table="byclass" lazy="false">
+        <id name="id" type="int" column="id">
+            <generator class="native"/>
+        </id>
+        <property name="className" type="string" column="classname" />
+        <list name="fieldList" table="fields" cascade="all">
+        	<key column="class_id"></key>
+        	<index column="[index]" type="string"></index>
+        	<one-to-many class="vlib.entity.FieldData"/>
+        </list>
+        <list name="methodList" table="methods" cascade="all">
+        	<key column="class_id"></key>
+        	<index column="[index]" type="string"></index>
+        	<one-to-many class="vlib.entity.MethodData"/>
+        </list>
+        <many-to-one name="judgeDetail" lazy="false" column="detail_id" class="vlib.entity.JudgeDetail"></many-to-one>
+    </class>
+</hibernate-mapping>

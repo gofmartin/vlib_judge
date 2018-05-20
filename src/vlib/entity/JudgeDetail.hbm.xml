@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="vlib.entity">
+    <class name="vlib.entity.JudgeDetail" table="judgedetail">
+        <id name="id" type="int" column="id">
+            <generator class="native"/>
+        </id>
+        <property name="expid" type="int" column="expid" />
+        <property name="type" type="string" column="type" />
+        <property name="rule" type="string" column="rule" />
+        <list name="data" table="byclass" cascade="all">
+        	<key column="detail_id"></key>
+        	<index column="[index]" type="string"></index>
+        	<one-to-many class="vlib.entity.ByClass"/>
+        </list>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="vlib.entity">
+    <class name="vlib.entity.FieldData" table="fields" lazy="false">
+        <id name="id" type="int" column="id">
+            <generator class="native"/>
+        </id>
+        <property name="type" type="string" column="type" />
+        <property name="name" type="string" column="name" />
+        <many-to-one name="byClass" lazy="false" column="class_id" class="vlib.entity.ByClass"></many-to-one>
+    </class>
+</hibernate-mapping>
